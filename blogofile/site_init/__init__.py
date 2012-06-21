@@ -9,7 +9,7 @@ import traceback
 from .. import __version__ as bf_version
 
 logger = logging.getLogger("blogofile.site_init")
-    
+
 from .. import util
 
 available_sites = [
@@ -38,22 +38,22 @@ def zip_site_init():
 
     This function should only be called by setuptools
     """
-    try: 
-        curdir = os.getcwd()
-        root = os.path.join(curdir, "blogofile", "site_init")
+    try:
+        curdir = os.getcwdu()
+        root = os.path.join(curdir, u"blogofile", u"site_init")
         for d in os.listdir(root):
-            if d == '__pycache__':
+            if d == u'__pycache__':
                 continue
             d = os.path.join(root, d)
             if os.path.isdir(d):
                 os.chdir(root)
-                zf = d + ".zip"
+                zf = d + u".zip"
                 z = zipfile.ZipFile(zf, "w")
                 os.chdir(d)
-                for dirpath, dirnames, filenames in os.walk(os.curdir):
+                for dirpath, dirnames, filenames in os.walk(unicode(os.curdir)):
                     if len(filenames) == 0:
                         #This is an empty directory, add it anyway:
-                        z.writestr(zipfile.ZipInfo(dirpath+"/"), '')
+                        z.writestr(zipfile.ZipInfo(dirpath+u"/"), '')
                     for fn in filenames:
                         z.write(os.path.join(dirpath, fn))
                 z.close()
@@ -133,7 +133,7 @@ def do_init(args):
             print(("This directory is not empty, will not attempt to " \
                     "initialize here : {0}".format(args.src_dir)))
             return
-        
+
         print(("Initializing the {0} site template...".format(
                 args.SITE_TEMPLATE)))
         template = site_modules[args.SITE_TEMPLATE]
